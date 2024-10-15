@@ -7,7 +7,7 @@ export default async function Page() {
   const session = (await auth()) as Session;
 
   if (session) {
-    redirect("/");
+    redirect("/"); 
   }
   return (
     <main className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
