@@ -34,9 +34,10 @@ export function TeamSwitcher({
           <div className="line-clamp-1 flex-1 pr-2 font-medium">
             {activeTeam.name}
           </div>
-          <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
+          {/* <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" /> */}
         </div>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent
         className="w-64"
         align="start"
@@ -74,6 +75,7 @@ export function TeamSwitcher({
           <div className="font-medium text-muted-foreground">Add workspace</div>
         </DropdownMenuItem>
       </DropdownMenuContent>
+      
     </DropdownMenu>
   )
 }

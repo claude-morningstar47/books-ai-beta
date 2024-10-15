@@ -1,12 +1,12 @@
 "use client"
 
 import {
-  Atom,
+  // Atom,
   Bird,
-  BookOpen,
+  // BookOpen,
   Bot,
-  Code2,
-  Eclipse,
+  // Code2,
+  // Eclipse,
   Frame,
   History,
   LifeBuoy,
@@ -17,7 +17,7 @@ import {
   Settings2,
   SquareTerminal,
   Star,
-  Turtle,
+  // Turtle,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -34,24 +34,26 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
+import { appConfig } from "@/config/app-config"
+import { Icons } from "./icons"
 
 const data = {
   teams: [
     {
-      name: "Acme Inc",
-      logo: Atom,
+      name: appConfig.name,
+      logo: Icons.logoBook,
       plan: "Enterprise",
     },
-    {
-      name: "Acme Corp.",
-      logo: Eclipse,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Rabbit,
-      plan: "Free",
-    },
+    // {
+    //   name: "Acme Corp.",
+    //   logo: Eclipse,
+    //   plan: "Startup",
+    // },
+    // {
+    //   name: "Evil Corp.",
+    //   logo: Rabbit,
+    //   plan: "Free",
+    // },
   ],
   user: {
     name: "shadcn",
@@ -91,75 +93,69 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
+          title: "Gemini",
           url: "#",
           icon: Rabbit,
           description: "Our fastest model for general use cases.",
         },
         {
-          title: "Explorer",
+          title: "OpenAI",
           url: "#",
           icon: Bird,
           description: "Performance and speed for efficiency.",
         },
-        {
-          title: "Quantum",
-          url: "#",
-          icon: Turtle,
-          description: "The most powerful model for complex computations.",
-        },
       ],
     },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API",
-      url: "#",
-      icon: Code2,
-      items: [
-        {
-          title: "Chat",
-          url: "#",
-        },
-        {
-          title: "Completion",
-          url: "#",
-        },
-        {
-          title: "Images",
-          url: "#",
-        },
-        {
-          title: "Video",
-          url: "#",
-        },
-        {
-          title: "Speech",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Documentation",
+    //   url: "#",
+    //   icon: BookOpen,
+    //   items: [
+    //     {
+    //       title: "Introduction",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Get Started",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Tutorials",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Changelog",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "API",
+    //   url: "#",
+    //   icon: Code2,
+    //   items: [
+    //     {
+    //       title: "Chat",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Completion",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Images",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Video",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Speech",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
     {
       title: "Settings",
       url: "#",
@@ -248,7 +244,8 @@ const data = {
   ],
 }
 
-export function AppSidebar() {
+export async function AppSidebar() {
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -269,7 +266,7 @@ export function AppSidebar() {
         </SidebarItem>
         {/* <SidebarItem>
           <StorageCard />
-        </SidebarItem> */}
+        </SidebarItem>  */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

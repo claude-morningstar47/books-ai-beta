@@ -1,7 +1,7 @@
 export type AppConfig = typeof appConfig;
 
 export const appConfig = {
-  name: "Bookai 02",
+  name: "Book-ai-beta",
   description:
     "02bookai is a software that helps writers also beginer be more productive and efficient in their journey",
   metadataBase: process.env.VERCEL_URL
