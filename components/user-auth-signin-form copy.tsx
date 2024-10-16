@@ -11,7 +11,7 @@ import { Loader } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { authenticate, handleGithubSignin } from "@/app/auth/login/action";
+import { authenticate, handleGithubSignin } from "@/app/auth/actions";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
