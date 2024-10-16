@@ -3,8 +3,8 @@ import type { NextAuthConfig } from "next-auth";
 export const authConfig = {
   secret: process.env.AUTH_SECRET,
   pages: {
-    signIn: "/login",
-    newUser: "/signup",
+    signIn: "/auth/login",
+    newUser: "/auth/signup",
   },
 
   callbacks: {
@@ -15,13 +15,13 @@ export const authConfig = {
       // Si l'utilisateur est connecté et essaie d'accéder à login ou signup
       if (
         isLoggedIn &&
-        (pathname.startsWith("/login") || pathname.startsWith("/signup"))
+        (pathname.startsWith("/auth/login") || pathname.startsWith("/auth/signup"))
       ) {
         return Response.redirect(new URL("/", nextUrl));
       }
 
       // Si l'utilisateur est non connecté et essaie d'accéder à signup
-      if (!isLoggedIn && pathname.startsWith("/signup")) {
+      if (!isLoggedIn && pathname.startsWith("/auth/signup")) {
         return true; // Autoriser l'accès à la page signup
       }
 

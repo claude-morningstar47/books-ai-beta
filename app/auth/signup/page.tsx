@@ -1,21 +1,3 @@
-// import { auth } from "@/auth";
-// import LoginPage from "@/components/signin-form";
-// import { Session } from "@/lib/types";
-// import { redirect } from "next/navigation";
-
-// export default async function Page() {
-//   const session = (await auth()) as Session;
-
-//   if (session) {
-//     redirect("/");
-//   }
-//   return (
-//     <div className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
-//       <LoginPage />
-//     </div>
-//   );
-// }
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,9 +6,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { auth } from "@/auth";
 import { Session } from "@/lib/types";
 import { redirect } from "next/navigation";
-import { UserAuthSigninForm } from "@/components/user-auth-signin-form copy";
+import { UserAuthSignupForm } from "@/components/user-auth-signup-form";
 
-export default async function Page() {
+export default async function SignupPage() {
   const session = (await auth()) as Session;
   if (session) {
     redirect("/");
@@ -51,13 +33,13 @@ export default async function Page() {
       </div>
       <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/signup"
+          href="/auth/login"
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8"
           )}
         >
-          Signin
+          Login
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
@@ -94,12 +76,14 @@ export default async function Page() {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Create an account
+              </h1>
               <p className="text-sm text-muted-foreground">
-                Enter your email below to login to your account
+                Enter your email below to create your account
               </p>
             </div>
-            <UserAuthSigninForm />
+            <UserAuthSignupForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

@@ -4,7 +4,8 @@ import { z } from "zod";
 import { getStringFromBuffer, ResultCode } from "@/lib/utils";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
-import { createUser } from "../actions/user-actions";
+import { createUser } from "@/app/actions/user-actions";
+// import { createUser } from "../actions/user-actions";
 
 interface Result {
   type: string;

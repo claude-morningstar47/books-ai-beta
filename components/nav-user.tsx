@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { handleSignOut } from "@/app/login/action";
+import { handleSignOut } from "@/app/auth/login/action";
 
 export function NavUser({
   user,

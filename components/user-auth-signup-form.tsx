@@ -9,10 +9,10 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Loader } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { signup } from "@/app/signup/actions";
+import { signup } from "@/app/auth/signup/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { handleGithubSignin } from "@/app/login/action";
+import { handleGithubSignin } from "@/app/auth/login/action";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
