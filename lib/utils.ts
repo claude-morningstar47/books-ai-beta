@@ -27,7 +27,7 @@ export enum ResultCode {
 export const getMessageFromCode = (resultCode: string) => {
   switch (resultCode) {
     case ResultCode.InvalidCredentials:
-      return "Invalid credentials! Please check your username or password.";
+      return "Invalid credentials! Please check your email or password.";
     case ResultCode.InvalidSubmission:
       return "Invalid submission, please try again! Ensure all fields are filled out.";
     case ResultCode.UserAlreadyExists:

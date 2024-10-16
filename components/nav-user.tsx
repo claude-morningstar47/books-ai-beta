@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import {
   BadgeCheck,
   Bell,
@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut } from "@/auth";
+import { handleSignOut } from "@/app/login/action";
 
 export function NavUser({
   user,
@@ -71,7 +71,7 @@ export function NavUser({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="gap-2">
+          <DropdownMenuItem className="gap-2" >
             <BadgeCheck className="h-4 w-4 text-muted-foreground" />
             Account
           </DropdownMenuItem>
@@ -85,13 +85,7 @@ export function NavUser({
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="gap-2"
-          onClick={async () => {
-            // "use server";
-            await signOut();
-          }}
-        >
+        <DropdownMenuItem className="gap-2" onClick={() => handleSignOut()}>
           <LogOut className="h-4 w-4 text-muted-foreground" />
           Log out
         </DropdownMenuItem>

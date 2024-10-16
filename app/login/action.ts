@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { ResultCode } from "@/lib/utils";
 import { AuthError } from "next-auth";
 import { z } from "zod";
@@ -20,8 +20,10 @@ export async function authenticate(
 
     const parsedCredentials = z
       .object({
-        email: z.string().email(),
-        password: z.string().min(6),
+        email: z.string().email({ message: "Invalid email format" }),
+        password: z
+          .string()
+          .min(6, { message: "Password must be at least 6 characters long" }),
       })
       .safeParse({
         email,
@@ -61,4 +63,11 @@ export async function authenticate(
       }
     }
   }
+}
+
+export async function handleGithubSignin() {
+  await signIn("github", { redirectTo: "/" });
+}
+export async function handleSignOut() {
+  await signOut();
 }

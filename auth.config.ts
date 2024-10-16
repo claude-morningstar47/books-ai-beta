@@ -6,19 +6,27 @@ export const authConfig = {
     signIn: "/login",
     newUser: "/signup",
   },
+
   callbacks: {
     async authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
+      const { pathname } = nextUrl;
 
-      const isOnLoginPage = nextUrl.pathname.startsWith("/login");
-      const isOnSignupPage = nextUrl.pathname.startsWith("/signup");
-
-      if (isLoggedIn) {
-        if (isOnLoginPage || isOnSignupPage) {
-          return Response.redirect(new URL("/", nextUrl));
-        }
+      // Si l'utilisateur est connecté et essaie d'accéder à login ou signup
+      if (
+        isLoggedIn &&
+        (pathname.startsWith("/login") || pathname.startsWith("/signup"))
+      ) {
+        return Response.redirect(new URL("/", nextUrl));
       }
-      return true;
+
+      // Si l'utilisateur est non connecté et essaie d'accéder à signup
+      if (!isLoggedIn && pathname.startsWith("/signup")) {
+        return true; // Autoriser l'accès à la page signup
+      }
+
+      // Si l'utilisateur est connecté, permettre l'accès aux autres routes
+      return !!auth;
     },
 
     async jwt({ token, user }) {

@@ -244,7 +244,7 @@ const data = {
   ],
 }
 
-export async function AppSidebar() {
+export function AppSidebar() {
 
   return (
     <Sidebar>

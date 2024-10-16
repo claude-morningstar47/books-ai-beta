@@ -16,8 +16,9 @@ export interface Book {
   id: string;
   title: string;
   description: string | null;
-  coverImageUrl: string | null;
+  coverImageUrl: string ;
   authorId: string;
+  author: string
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;

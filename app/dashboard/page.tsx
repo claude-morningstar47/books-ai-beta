@@ -1,11 +1,9 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  SidebarLayout,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
+import BookPage from "../books/page";
 
 export default async function Page() {
-  const { cookies } = await import("next/headers")  
+  const { cookies } = await import("next/headers");
   return (
     <SidebarLayout
       defaultOpen={cookies().get("sidebar:state")?.value === "true"}
@@ -14,9 +12,9 @@ export default async function Page() {
       <main className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
         <div className="h-full rounded-md border-2 border-dashed p-2">
           <SidebarTrigger />
-        <h1>Dash</h1>
+          <BookPage />
         </div>
       </main>
     </SidebarLayout>
-  )
+  );
 }

@@ -7,16 +7,22 @@ import { authConfig } from "@/auth.config";
 import { z } from "zod";
 import { getStringFromBuffer } from "@/lib/utils";
 import { getUser } from "@/app/actions/user-actions";
+import Github from 'next-auth/providers/github'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
+    Github,
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            email: z.string().email(),
-            password: z.string().min(6),
+            email: z.string().email(
+              { message: "Invalid email format" }
+            ),
+            password: z.string().min(6,
+               { message: "Password must be at least 6 characters long" }
+              ),
           })
           .safeParse(credentials);
 
