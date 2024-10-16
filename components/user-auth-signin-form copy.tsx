@@ -17,19 +17,22 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthSigninForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
-  const { pending } = useFormStatus();
   const [result, dispatch] = useFormState(authenticate, undefined);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (result) {
+      setIsLoading(true)
       if (result.type === "error") {
         toast.error(getMessageFromCode(result.resultCode));
+        setIsLoading(false)
       } else {
         toast.success(getMessageFromCode(result.resultCode));
+        setIsLoading(false)
         router.refresh();
       }
     }
-  });
+  }, [result, router]);
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -47,7 +50,7 @@ export function UserAuthSigninForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={pending}
+              disabled={isLoading}
             />
           </div>
 
@@ -62,17 +65,18 @@ export function UserAuthSigninForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect="off"
-              disabled={pending}
+              disabled={isLoading}
             />
           </div>
 
-          <Button disabled={pending}>
+          <LoginButton />
+          {/* <Button disabled={pending}>
             {pending ? (
               <Loader className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               "Sign In with Email"
             )}
-          </Button>
+          </Button> */}
         </div>
       </form>
       <div className="relative">
@@ -89,9 +93,9 @@ export function UserAuthSigninForm({ className, ...props }: UserAuthFormProps) {
         variant="outline"
         onClick={() => handleGithubSignin()}
         type="button"
-        disabled={pending}
+        disabled={isLoading}
       >
-        {pending ? (
+        {isLoading ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
@@ -99,5 +103,19 @@ export function UserAuthSigninForm({ className, ...props }: UserAuthFormProps) {
         GitHub
       </Button>
     </div>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending}>
+      {pending ? (
+        <Loader className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        "Sign In with Email"
+      )}
+    </Button>
   );
 }

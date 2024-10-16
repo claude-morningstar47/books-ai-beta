@@ -1,3 +1,15 @@
+/**
+ * The above code contains TypeScript functions for user authentication, signup, password hashing,
+ * error handling, and handling sign-in/sign-out actions.
+ * @param {unknown} error - The `error` parameter in the functions `authenticate` and `signup` refers
+ * to any error that may occur during the authentication or signup process. This error could be related
+ * to validation errors, authentication errors, or any other unexpected issues that may arise during
+ * the execution of these functions. The `handleAuth
+ * @returns The functions `authenticate`, `signup`, `handleGithubSignin`, and `handleSignOut` are
+ * returning a `Result` object or `undefined` wrapped in a Promise. The `Result` object has two
+ * properties: `type` (string) and `resultCode` (ResultCode enum). The `ResultCode` enum is likely an
+ * enumeration of different result codes for different outcomes of the authentication
+ */
 "use server";
 
 import { createUser } from "@/app/actions/user-actions";
@@ -13,10 +25,8 @@ interface Result {
 
 // Schémas de validation Zod
 const credentialsSchema = z.object({
-  email: z.string().email({ message: "Invalid email format" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+  email: z.string().email("Invalid email format"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
 const signupSchema = z.object({
