@@ -1,8 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
-import BookPage from "../books/page";
+import { ReactNode } from "react";
 
-export default async function Page() {
+export default async function Page({ children }: { children: ReactNode }) {
   const { cookies } = await import("next/headers");
   return (
     <SidebarLayout
@@ -12,7 +12,7 @@ export default async function Page() {
       <main className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
         <div className="h-full rounded-md border-2 border-dashed p-2">
           <SidebarTrigger />
-          <BookPage />
+          {children}
         </div>
       </main>
     </SidebarLayout>

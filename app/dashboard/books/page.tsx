@@ -1,5 +1,4 @@
 
-
 import { Metadata } from "next"
 import Image from "next/image"
 import { PlusCircledIcon } from "@radix-ui/react-icons"
@@ -17,6 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default function BooksPage() {
+
   return (
     <>
       <div className="md:hidden">
@@ -41,7 +41,7 @@ export default function BooksPage() {
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">
               {/* <Sidebar playlists={playlists} className="hidden lg:block" /> */}
-              <div className="col-span-3 lg:col-span-4 lg:border-l">
+              <div className="col-span-3 lg:col-span-12 lg:border-l">
                 <div className="h-full px-4 py-6 lg:px-8">
                   <Tabs defaultValue="music" className="h-full space-y-6">
                     <div className="space-between flex items-center">

@@ -2,19 +2,21 @@
 
 import {
   // Atom,
-  Bird,
+  // Bird,
+  Book,
+  // BookA,
   // BookOpen,
-  Bot,
+  // Bot,
   // Code2,
   // Eclipse,
-  Frame,
+  // Frame,
   History,
   LifeBuoy,
-  Map,
-  PieChart,
-  Rabbit,
+  // Map,
+  // PieChart,
+  // Rabbit,
   Send,
-  Settings2,
+  // Settings2,
   SquareTerminal,
   Star,
   // Turtle,
@@ -36,6 +38,8 @@ import {
 } from "@/components/ui/sidebar"
 import { appConfig } from "@/config/app-config"
 import { Icons } from "./icons"
+import { Button } from "./ui/button"
+import {  useRouter } from "next/navigation"
 
 const data = {
   teams: [
@@ -56,8 +60,8 @@ const data = {
     // },
   ],
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "user-test",
+    email: "user@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -79,33 +83,33 @@ const data = {
           icon: Star,
           description: "Browse your starred prompts",
         },
-        {
-          title: "Settings",
-          url: "#",
-          icon: Settings2,
-          description: "Configure your playground",
-        },
+        // {
+        //   title: "Settings",
+        //   url: "#",
+        //   icon: Settings2,
+        //   description: "Configure your playground",
+        // },
       ],
     },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Gemini",
-          url: "#",
-          icon: Rabbit,
-          description: "Our fastest model for general use cases.",
-        },
-        {
-          title: "OpenAI",
-          url: "#",
-          icon: Bird,
-          description: "Performance and speed for efficiency.",
-        },
-      ],
-    },
+    // {
+    //   title: "Models",
+    //   url: "#",
+    //   icon: Bot,
+    //   items: [
+    //     {
+    //       title: "Gemini",
+    //       url: "#",
+    //       icon: Rabbit,
+    //       description: "Our fastest model for general use cases.",
+    //     },
+    //     {
+    //       title: "OpenAI",
+    //       url: "#",
+    //       icon: Bird,
+    //       description: "Performance and speed for efficiency.",
+    //     },
+    //   ],
+    // },
     // {
     //   title: "Documentation",
     //   url: "#",
@@ -156,29 +160,29 @@ const data = {
     //     },
     //   ],
     // },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: Settings2,
+    //   items: [
+    //     {
+    //       title: "General",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Team",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Billing",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Limits",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
 
   navSecondary: [
@@ -194,21 +198,21 @@ const data = {
     },
   ],
   projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
+    // {
+    //   name: "Design Engineering",
+    //   url: "#",
+    //   icon: Frame,
+    // },
+    // {
+    //   name: "Sales & Marketing",
+    //   url: "#",
+    //   icon: PieChart,
+    // },
+    // {
+    //   name: "Travel",
+    //   url: "#",
+    //   icon: Map,
+    // },
   ],
   searchResults: [
     {
@@ -246,12 +250,21 @@ const data = {
 
 export function AppSidebar() {
 
+const router = useRouter()
+
   return (
     <Sidebar>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
+
       <SidebarContent>
+        <SidebarItem>
+          <Button  className="gap-2" onClick={()=> router.push("/dashboard/books")}>
+            <Book />
+            All Books
+          </Button>
+        </SidebarItem>
         <SidebarItem>
           <SidebarLabel>Platform</SidebarLabel>
           <NavMain items={data.navMain} searchResults={data.searchResults} />

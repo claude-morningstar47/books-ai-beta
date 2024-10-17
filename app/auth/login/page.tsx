@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { auth } from "@/auth";
 import { Session } from "@/lib/types";
 import { redirect } from "next/navigation";
-import { UserAuthSigninForm } from "@/components/user-auth-signin-form copy";
+import { UserAuthSigninForm } from "@/components/user-auth-signin-form";
 
 export default async function SigninPage() {
   const session = (await auth()) as Session;

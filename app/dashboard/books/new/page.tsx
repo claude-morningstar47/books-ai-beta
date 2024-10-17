@@ -39,7 +39,7 @@ import { ModelSelector } from "@/components/model-selector"
 import { models, types } from "@/data-test/models"
 
 export const metadata: Metadata = {
-  title: "Playground",
+  title: "Book-title",
   description: "The OpenAI Playground built using the components.",
 }
 
@@ -63,8 +63,8 @@ export default function PlaygroundPage() {
         />
       </div>
       <div className="hidden h-full flex-col md:flex">
-        <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-          <h2 className="text-lg font-semibold">Playground</h2>
+        <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-1 md:h-8">
+          <h2 className="text-lg font-semibold">TitleBook</h2>
           <div className="ml-auto flex w-full space-x-2 sm:justify-end">
             {/* <PresetSelector presets={presets} /> */}
             {/* <PresetSave />
