@@ -1,33 +1,18 @@
-"use client"
+"use client";
 
 import {
-  // Atom,
-  // Bird,
-  Book,
-  // BookA,
-  // BookOpen,
-  // Bot,
-  // Code2,
-  // Eclipse,
-  // Frame,
   History,
   LifeBuoy,
-  // Map,
-  // PieChart,
-  // Rabbit,
+  PanelsTopLeft,
   Send,
-  // Settings2,
   SquareTerminal,
   Star,
-  // Turtle,
-} from "lucide-react"
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
-// import { StorageCard } from "@/components/storage-card"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -35,34 +20,17 @@ import {
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
-} from "@/components/ui/sidebar"
-import { appConfig } from "@/config/app-config"
-import { Icons } from "./icons"
-import { Button } from "./ui/button"
-import {  useRouter } from "next/navigation"
+} from "@/components/ui/sidebar";
+import { appConfig } from "@/config/app-config";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { Session } from "@/lib/types";
 
 const data = {
-  teams: [
-    {
-      name: appConfig.name,
-      logo: Icons.logoBook,
-      plan: "Enterprise",
-    },
-    // {
-    //   name: "Acme Corp.",
-    //   logo: Eclipse,
-    //   plan: "Startup",
-    // },
-    // {
-    //   name: "Evil Corp.",
-    //   logo: Rabbit,
-    //   plan: "Free",
-    // },
-  ],
   user: {
     name: "user-test",
     email: "user@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    image: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
@@ -83,108 +51,9 @@ const data = {
           icon: Star,
           description: "Browse your starred prompts",
         },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        //   icon: Settings2,
-        //   description: "Configure your playground",
-        // },
       ],
     },
-    // {
-    //   title: "Models",
-    //   url: "#",
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: "Gemini",
-    //       url: "#",
-    //       icon: Rabbit,
-    //       description: "Our fastest model for general use cases.",
-    //     },
-    //     {
-    //       title: "OpenAI",
-    //       url: "#",
-    //       icon: Bird,
-    //       description: "Performance and speed for efficiency.",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "API",
-    //   url: "#",
-    //   icon: Code2,
-    //   items: [
-    //     {
-    //       title: "Chat",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Completion",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Images",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Video",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Speech",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
-
   navSecondary: [
     {
       title: "Support",
@@ -197,23 +66,7 @@ const data = {
       icon: Send,
     },
   ],
-  projects: [
-    // {
-    //   name: "Design Engineering",
-    //   url: "#",
-    //   icon: Frame,
-    // },
-    // {
-    //   name: "Sales & Marketing",
-    //   url: "#",
-    //   icon: PieChart,
-    // },
-    // {
-    //   name: "Travel",
-    //   url: "#",
-    //   icon: Map,
-    // },
-  ],
+  projects: [],
   searchResults: [
     {
       title: "Routing Fundamentals",
@@ -246,25 +99,24 @@ const data = {
       url: "#",
     },
   ],
-}
+};
 
-export function AppSidebar() {
-
-const router = useRouter()
+export async function AppSidebar({ userData }: { userData: Session }) {
+  const user = userData;
+  console.log('user session',user);
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <Button variant="outline" asChild>
+          <Link href="/dashboard/book" className="flex items-center gap-2">
+            <PanelsTopLeft className="w-6 h-6 mr-1" />
+            <h1>{appConfig.name}</h1>
+          </Link>
+        </Button>
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarItem>
-          <Button  className="gap-2" onClick={()=> router.push("/dashboard/books")}>
-            <Book />
-            All Books
-          </Button>
-        </SidebarItem>
         <SidebarItem>
           <SidebarLabel>Platform</SidebarLabel>
           <NavMain items={data.navMain} searchResults={data.searchResults} />
@@ -277,13 +129,17 @@ const router = useRouter()
           <SidebarLabel>Help</SidebarLabel>
           <NavSecondary items={data.navSecondary} />
         </SidebarItem>
-        {/* <SidebarItem>
-          <StorageCard />
-        </SidebarItem>  */}
       </SidebarContent>
+
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: user?.user?.name,
+            email: user?.user?.email,
+            image: user?.user?.image,
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

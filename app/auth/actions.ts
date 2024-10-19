@@ -14,9 +14,10 @@
 
 import { createUser } from "@/app/actions/user-actions";
 import { signIn, signOut } from "@/auth";
-import { getStringFromBuffer, ResultCode } from "@/lib/utils";
+import { ResultCode } from "@/lib/utils";
 import { AuthError } from "next-auth";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 interface Result {
   type: string;
@@ -30,9 +31,8 @@ const credentialsSchema = z.object({
 });
 
 const signupSchema = z.object({
-  first_name: z.string().min(1, "First name is required"),
-  last_name: z.string().min(1, "Last name is required"),
-  email: z.string().email(),
+  name: z.string().min(1, "Username  name is required"),
+  email: z.string().email("Invalid email format"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
@@ -49,19 +49,11 @@ function handleAuthError(error: unknown): Result {
   return { type: "error", resultCode: ResultCode.UnknownError };
 }
 
-// Fonction pour hacher le mot de passe
-async function hashPassword(
-  password: string
-): Promise<{ hashedPassword: string; salt: string }> {
-  const salt = crypto.randomUUID();
-  const encoder = new TextEncoder();
-  const saltedPassword = encoder.encode(password + salt);
-  const hashedPasswordBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    saltedPassword
-  );
-  const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
-  return { hashedPassword, salt };
+// Fonction pour hacher le mot de passe avec bcrypt
+async function hashPassword(password: string): Promise<string> {
+  const saltRounds = 10; // Nombre de tours de salage
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword; // Retourne simplement le mot de passe haché
 }
 
 // Authentification
@@ -92,27 +84,19 @@ export async function signup(
   formData: FormData
 ): Promise<Result | undefined> {
   try {
-    const first_name = formData.get("first-name") as string;
-    const last_name = formData.get("last-name") as string;
+    const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
     const parsedCredentials = signupSchema.safeParse({
-      first_name,
-      last_name,
+      name,
       email,
       password,
     });
 
     if (parsedCredentials.success) {
-      const { hashedPassword, salt } = await hashPassword(password);
-      const result = await createUser(
-        first_name,
-        last_name,
-        email,
-        hashedPassword,
-        salt
-      );
+      const hashedPassword = await hashPassword(password);
+      const result = await createUser(name, email, hashedPassword);
 
       if (result.resultCode === ResultCode.UserCreated) {
         await signIn("credentials", { email, password, redirect: false });

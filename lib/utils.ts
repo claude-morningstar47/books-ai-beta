@@ -10,11 +10,6 @@ export const STAGGER_CHILD_VARIANTS = {
   show: { opacity: 1, y: 0 },
 };
 
-export const getStringFromBuffer = (buffer: ArrayBuffer) =>
-  Array.from(new Uint8Array(buffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-
 export enum ResultCode {
   InvalidCredentials = "INVALID_CREDENTIALS",
   InvalidSubmission = "INVALID_SUBMISSION",

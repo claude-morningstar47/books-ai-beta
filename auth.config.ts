@@ -1,5 +1,14 @@
 import type { NextAuthConfig } from "next-auth";
 
+declare module "next-auth" {
+  interface User {
+    onboarded: boolean;
+  }
+  interface Session {
+    redirectTo?: string;
+  }
+}
+
 export const authConfig = {
   secret: process.env.AUTH_SECRET,
   pages: {
@@ -15,7 +24,8 @@ export const authConfig = {
       // Si l'utilisateur est connecté et essaie d'accéder à login ou signup
       if (
         isLoggedIn &&
-        (pathname.startsWith("/auth/login") || pathname.startsWith("/auth/signup"))
+        (pathname.startsWith("/auth/login") ||
+          pathname.startsWith("/auth/signup"))
       ) {
         return Response.redirect(new URL("/", nextUrl));
       }
@@ -35,11 +45,26 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }) {
+    // async session({ session, token }) {
+    //   if (token) {
+    //     const { id } = token as { id: string };
+    //     const { user } = session;
+    //     session = { ...session, user: { ...user, id } };
+    //   }
+    //   return session;
+    // },
+    async session({ session, token, user }) {
       if (token) {
         const { id } = token as { id: string };
         const { user } = session;
+
         session = { ...session, user: { ...user, id } };
+      }
+
+      // Vérifier si l'utilisateur a déjà terminé l'onboarding
+      if (user && !user.onboarded) {
+        // Rediriger vers la page d'onboarding
+        session.redirectTo = "/onboarding";
       }
       return session;
     },

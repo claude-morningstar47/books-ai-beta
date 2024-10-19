@@ -5,9 +5,9 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { z } from "zod";
-import { getStringFromBuffer } from "@/lib/utils";
 import { getUser } from "@/app/actions/user-actions";
-import Github from 'next-auth/providers/github'
+import bcrypt from "bcrypt";
+import Github from "next-auth/providers/github";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -17,12 +17,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            email: z.string().email(
-              { message: "Invalid email format" }
-            ),
-            password: z.string().min(6,
-               { message: "Password must be at least 6 characters long" }
-              ),
+            email: z.string().email({ message: "Invalid email format" }),
+            password: z.string().min(6, {
+              message: "Password must be at least 6 characters long",
+            }),
           })
           .safeParse(credentials);
 
@@ -32,15 +30,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (!user) return null;
 
-          const encoder = new TextEncoder();
-          const saltedPassword = encoder.encode(password + user.salt);
-          const hashedPasswordBuffer = await crypto.subtle.digest(
-            "SHA-256",
-            saltedPassword
+          const hashedPassword = await bcrypt.compare(
+            password,
+            user.password_hash
           );
-          const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
-
-          if (hashedPassword === user.password) {
+          if (hashedPassword) {
             return user;
           } else {
             return null;

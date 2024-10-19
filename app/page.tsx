@@ -1,19 +1,12 @@
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 import Image from "next/image";
-import { getUser } from "./actions/user-actions";
-import { Session } from "@/lib/types";
-import { redirect } from "next/navigation";
+// import { Session } from "@/lib/types";
 import Link from "next/link";
 import { appConfig } from "@/config/app-config";
 
 export default async function Home() {
-  const session = (await auth()) as Session;
-
-  const user = await getUser(session.user?.email);
-  if (!user?.onboarded) {
-    redirect("/onboard/user");
-  }
-  console.log(user);
+  // const session = (await auth()) as Session;
+  // console.log(session.user);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -28,21 +21,21 @@ export default async function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <Link
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="/dashboard"
+            href="/dashboard/book"
             rel="noopener noreferrer"
           >
             Dashboard
           </Link>
-          <Link
+          {/* <Link
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
             href="/books"
             rel="noopener noreferrer"
           >
             Books
-          </Link>
+          </Link> */}
           <Link
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="/books/new"
+            href="/dashboard/books/new"
             rel="noopener noreferrer"
           >
             Create Book
@@ -77,7 +70,7 @@ export default async function Home() {
             width={16}
             height={16}
           />
-         Copyright {appConfig.name} 
+          Copyright {appConfig.name}
         </a>
       </footer>
     </div>

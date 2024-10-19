@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { eq } from "drizzle-orm";
 import { db } from "@/db/postgres";
@@ -27,11 +27,9 @@ export async function getUser(email: string) {
 }
 
 export async function createUser(
-  first_name: string,
-  last_name: string,
+  name: string,
   email: string,
   hashedPassword: string,
-  salt: string
 ) {
   const existingUser = await getUser(email);
 
@@ -43,13 +41,10 @@ export async function createUser(
   } else {
     const user = {
       id: crypto.randomUUID(),
-      first_name,
-      last_name,
+      name,
       email,
-      password: hashedPassword,
-      salt,
+      password_hash: hashedPassword,
     };
-
 
     await db.insert(users).values(user);
 
@@ -60,26 +55,23 @@ export async function createUser(
   }
 }
 
-export async function patchUser(userId: string, updateData: Partial<Omit<User, 'created_at' | 'updated_at'>>): Promise<void> {
+export async function patchUser(
+  userId: string,
+  updateData: Partial<Omit<User, "created_at" | "updated_at">>
+): Promise<void> {
   try {
-    await db.update(users).set(updateData).where(eq(users.id, userId))
+    await db.update(users).set(updateData).where(eq(users.id, userId));
   } catch (error) {
-  console.error('Failed to update user:', error)
-  throw new Error('Failed to update user.')
+    console.error("Failed to update user:", error);
+    throw new Error("Failed to update user.");
   }
 }
 
-export async function deleteUser(userId:string): Promise<void>   {
+export async function deleteUser(userId: string): Promise<void> {
   try {
-    await db.delete(users).where(eq(users.id, userId))
+    await db.delete(users).where(eq(users.id, userId));
   } catch (error) {
     console.error("Failed to delete user:", error);
     throw new Error("Failed to delete user.");
   }
-  
 }
-
-
-
-
-

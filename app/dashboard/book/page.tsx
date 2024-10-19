@@ -1,21 +1,26 @@
 
-import { Metadata } from "next"
-import Image from "next/image"
-import { PlusCircledIcon } from "@radix-ui/react-icons"
+import { Metadata } from "next";
+import Image from "next/image";
 
-import { BookDisplay } from "@/components/album-artwork"
+import { BookDisplay } from "@/components/book-display";
 
-import { listenNowBook, madeForYouBook } from "@/data-test/albums"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { listBook, madeForYouBook } from "@/data-test/albums";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { NewBookButton } from "@/components/new-book-button";
 
 export const metadata: Metadata = {
   title: "Books",
-}
+};
 
 export default function BooksPage() {
+  // const [books, setBooks] = useState<Book[]>([])
+
+  // useEffect(() => {
+  //   // In a real application, you would fetch books from an API
+  //   setBooks(listBook)
+  // }, [])
 
   return (
     <>
@@ -35,6 +40,7 @@ export default function BooksPage() {
           className="hidden dark:block"
         />
       </div>
+
       <div className="hidden md:block">
         {/* <Menu /> */}
         <div className="border-t">
@@ -47,15 +53,12 @@ export default function BooksPage() {
                     <div className="space-between flex items-center">
                       <TabsList>
                         <TabsTrigger value="music" className="relative">
-                          All Books
+                          My Books
                         </TabsTrigger>
-                        <TabsTrigger value="podcasts">My Books</TabsTrigger>
+                        <TabsTrigger value="podcasts">Books</TabsTrigger>
                       </TabsList>
                       <div className="ml-auto mr-4">
-                        <Button>
-                          <PlusCircledIcon className="mr-2 h-4 w-4" />
-                          Add book
-                        </Button>
+                        <NewBookButton />
                       </div>
                     </div>
                     <TabsContent
@@ -65,7 +68,7 @@ export default function BooksPage() {
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
                           <h2 className="text-2xl font-semibold tracking-tight">
-                            All the books
+                            My Books
                           </h2>
                           <p className="text-sm text-muted-foreground">
                             Top picks for you. Updated daily.
@@ -76,7 +79,7 @@ export default function BooksPage() {
                       <div className="relative">
                         <ScrollArea>
                           <div className="flex space-x-4 pb-4">
-                            {listenNowBook.map((book) => (
+                            {listBook.map((book) => (
                               <BookDisplay
                                 key={book.title}
                                 book={book}
@@ -90,9 +93,6 @@ export default function BooksPage() {
                           <ScrollBar orientation="horizontal" />
                         </ScrollArea>
                       </div>
-
-                   
-                      
                     </TabsContent>
 
                     <TabsContent
@@ -102,7 +102,7 @@ export default function BooksPage() {
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
                           <h2 className="text-2xl font-semibold tracking-tight">
-                            My books
+                            Books
                           </h2>
                           <p className="text-sm text-muted-foreground">
                             Your favorite books. Updated daily.
@@ -110,17 +110,6 @@ export default function BooksPage() {
                         </div>
                       </div>
                       <Separator className="my-4" />
-
-                      {/* <div className="mt-6 space-y-1">
-                        <h2 className="text-2xl font-semibold tracking-tight">
-                          Made for You
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          Your personal playlists. Updated daily.
-                        </p>
-                      </div> */}
-
-                      {/* <Separator className="my-4" /> */}
                       <div className="relative">
                         <ScrollArea>
                           <div className="flex space-x-4 pb-4">
@@ -135,7 +124,7 @@ export default function BooksPage() {
                               />
                             ))}
                           </div>
-                          <ScrollBar orientation='horizontal' />
+                          <ScrollBar orientation="horizontal" />
                         </ScrollArea>
                       </div>
                     </TabsContent>
@@ -147,5 +136,5 @@ export default function BooksPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

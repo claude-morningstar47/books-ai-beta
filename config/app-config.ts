@@ -29,8 +29,4 @@ export const appConfig = {
       href: "/read",
     },
   ],
-  links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-  },
 };

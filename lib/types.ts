@@ -1,37 +1,39 @@
+/* These TypeScript interfaces are defining the structure of various data types used in a hypothetical
+application. Here's a breakdown of each interface: */
 export interface User {
   id: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
-  password: string;
-  onboarded: boolean;
-  salt: string
-  preferences?: Record<string, unknown>;
-  avatar_url?: string | null;
+  image: string ;
+  onboarded: boolean
+  password_hash: string;
+  preferredGenre: string | null;
+  aiAssistanceEnabled: boolean;
   created_at: string;
+  preferences: Record<string, unknown>;
   updated_at: string;
 }
-
 export interface Book {
-  id: string;
+  id: number;
+  userId: string;
   title: string;
   description: string | null;
-  coverImageUrl: string ;
-  authorId: string;
-  author: string
+  coverImageUrl: string | null;
+  progress: string;
+  content: string | null;
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Chapter {
-  id: string;
+  id: number;
+  bookId?: number;
   title: string;
   content: string;
-  bookId: string;
-  order: number;
-  createdAt: Date;
-  updatedAt: Date;
+  orderIndex?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Chat {
@@ -45,6 +47,9 @@ export interface Session {
   user: {
     id: string;
     email: string;
+    name: string;
+    image: string
+    onboarded: boolean
   };
 }
 

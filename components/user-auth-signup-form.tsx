@@ -12,59 +12,45 @@ import { useFormState, useFormStatus } from "react-dom";
 import { handleGithubSignin, signup } from "@/app/auth/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-// import { handleGithubSignin } from "@/app/auth/login/action";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthSignupForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
-  const { pending } = useFormStatus();
   const [result, dispatch] = useFormState(signup, undefined);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (result) {
+      setIsLoading(true);
       if (result.type === "error") {
+        setIsLoading(false);
         toast.error(getMessageFromCode(result.resultCode));
       } else {
         toast.success(getMessageFromCode(result.resultCode));
+        setIsLoading(false);
         router.refresh();
       }
     }
-  });
+  }, [result, router]);
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form action={dispatch}>
         <div className="grid gap-2">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label className="sr-only" htmlFor="first-name">
-                First name
-              </Label>
-              <Input
-                id="first-name"
-                name="first-name"
-                placeholder="Max"
-                autoCapitalize="none"
-                autoComplete="first-name"
-                autoCorrect="off"
-                disabled={pending}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label className="sr-only" htmlFor="last-name">
-                Last name
-              </Label>
-              <Input
-                id="last-name"
-                name="last-name"
-                placeholder="Robinson"
-                autoCapitalize="none"
-                autoComplete="last-name"
-                autoCorrect="off"
-                disabled={pending}
-              />
-            </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="name">
+              Username
+            </Label>
+            <Input
+              id="name"
+              name="name"
+              placeholder="Robinson"
+              autoCapitalize="none"
+              autoComplete="name"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
           </div>
 
           <div className="grid gap-1">
@@ -79,7 +65,7 @@ export function UserAuthSignupForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={pending}
+              disabled={isLoading}
             />
           </div>
 
@@ -94,17 +80,18 @@ export function UserAuthSignupForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect="off"
-              disabled={pending}
+              disabled={isLoading}
             />
           </div>
 
-          <Button disabled={pending}>
-            {pending ? (
+          {/* <Button disabled={isLoading}>
+            {isLoading ? (
               <Loader className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              "Sign In with Email"
+              "Sign Up with Email"
             )}
-          </Button>
+          </Button> */}
+          <SigupButton />
         </div>
       </form>
       <div className="relative">
@@ -121,9 +108,9 @@ export function UserAuthSignupForm({ className, ...props }: UserAuthFormProps) {
         variant="outline"
         onClick={() => handleGithubSignin()}
         type="button"
-        disabled={pending}
+        disabled={isLoading}
       >
-        {pending ? (
+        {isLoading ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
@@ -131,5 +118,19 @@ export function UserAuthSignupForm({ className, ...props }: UserAuthFormProps) {
         GitHub
       </Button>
     </div>
+  );
+}
+
+function SigupButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending}>
+      {pending ? (
+        <Loader className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        "Sign Up with Email"
+      )}
+    </Button>
   );
 }

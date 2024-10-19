@@ -1,6 +1,6 @@
 {
-  "id": "089726f5-8fb8-4b24-ab54-79382cfa7bdd",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "8008e152-d8e2-4970-bc45-b3f3b5457359",
+  "prevId": "089726f5-8fb8-4b24-ab54-79382cfa7bdd",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -172,8 +172,8 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "username": {
-          "name": "username",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -190,8 +190,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "avatar_url": {
-          "name": "avatar_url",
+        "image": {
+          "name": "image",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -235,11 +235,11 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_username_unique": {
-          "name": "users_username_unique",
+        "users_name_unique": {
+          "name": "users_name_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "username"
+            "name"
           ]
         },
         "users_email_unique": {
