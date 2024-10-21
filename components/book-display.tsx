@@ -17,6 +17,7 @@ interface BookProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: number;
 }
 
+
 export function BookDisplay({
   book,
   aspectRatio = "portrait",
@@ -49,6 +50,10 @@ export function BookDisplay({
           <ContextMenuSeparator />
           <ContextMenuItem>Edit</ContextMenuItem>
           <ContextMenuSeparator />
+          {/* <ContextMenuItem onClick={() => deleteBook(book?.id)}>
+            Delete
+          </ContextMenuItem> */}
+          <ContextMenuSeparator />
           <ContextMenuItem>Like</ContextMenuItem>
           <ContextMenuItem>Share</ContextMenuItem>
         </ContextMenuContent>
@@ -56,13 +61,6 @@ export function BookDisplay({
       <div className="space-y-1 text-sm">
         <h3 className="font-medium leading-none">{book.title}</h3>
         <p className="text-xs text-muted-foreground">{book.description}</p>
-
-        {/* <div className="h-2 bg-secondary rounded">
-          <div
-            className="h-full bg-primary rounded"
-            style={{ width: `${book.progress}%` }}
-          ></div>
-        </div> */}
       </div>
     </div>
   );

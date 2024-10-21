@@ -62,11 +62,14 @@ async function generateBookPlan({
     // Convertir la réponse de l'AI en chapitres (par exemple, chaque section du texte généré devient un chapitre)
     const chapters: Chapter[] = generatedContent.split("\n\n").map((section: string, index: number) => ({
       id: index + 1,
-      title: `Chapter ${index + 1}: ${section.split("\n")[0]}`, // Titre du chapitre
+    //   title: `Chapter ${index + 1}: ${section.split("\n")[0]}`, // Titre du chapitre
+      title: `${section.split("\n")[0]}`, // Titre du chapitre
       content: section, 
       order: index + 1,
     }));
   
+
+
     // Créer un nouvel objet Book avec les données fournies et les chapitres générés
     const newBook: Partial<Book> = {
       authorId: session?.user.id,

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, ChevronRight, Plus, Save, Trash } from "lucide-react";
+import { BotMessageSquare, ChevronLeft, ChevronRight, Plus, Save, Trash } from "lucide-react";
 import TextEditor from "@/components/text-editor";
 import Preview from "@/components/preview";
 import {
@@ -226,10 +226,10 @@ export default function EbookEditor() {
                 onChange={(e) => setAiQuery(e.target.value)}
                 placeholder="Ask the AI for help with your writing..."
               />
-              <Button onClick={handleAIQuery}>Ask AI</Button>
+              <Button onClick={handleAIQuery}><BotMessageSquare /> Ask AI</Button>
               {aiResponse && (
                 <div className="p-4 mt-4 border rounded-md">
-                  <strong>AI Response:</strong> {aiResponse}
+                  <strong><BotMessageSquare /></strong> {aiResponse}
                 </div>
               )}
             </div>
@@ -259,3 +259,5 @@ export default function EbookEditor() {
     </motion.div>
   );
 }
+
+

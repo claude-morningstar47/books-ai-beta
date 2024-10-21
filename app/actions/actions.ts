@@ -85,6 +85,18 @@ export async function updateBookById(
     throw new Error("Failed to update book.");
   }
 }
+
+export async function deleteBookById(bookId:number) {
+
+  try {
+    const deleteBook = await db.delete(books).where(eq(books.id, bookId))
+    return deleteBook
+  } catch (error) {
+    console.error('Error del book',error);
+    
+  }
+  
+}
 // Fonction pour récupérer un chapitre par son ID
 export const getChapter = async (id: number) => {
   try {

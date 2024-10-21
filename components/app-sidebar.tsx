@@ -22,16 +22,10 @@ import {
   SidebarLabel,
 } from "@/components/ui/sidebar";
 import { appConfig } from "@/config/app-config";
-// import { Button } from "./ui/button";
 import Link from "next/link";
 import { Session } from "@/lib/types";
 
 const data = {
-  user: {
-    name: "user-test",
-    email: "user@example.com",
-    image: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Playground",
