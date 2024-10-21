@@ -1,85 +1,97 @@
 import {
-  boolean,
-  integer,
-  jsonb,
   pgTable,
+  serial,
   text,
-  timestamp,
-  uuid,
   varchar,
+  timestamp,
+  integer,
+  boolean,
+  jsonb,
+  uuid,
 } from "drizzle-orm/pg-core";
+// import { relations } from "drizzle-orm";
 
-// Table users avec un ID de type UUID
+// Users table
 export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),  // UUID avec génération automatique
-  name: text("name").notNull().unique(),  // Contrainte d'unicité
-  email: text("email").notNull().unique(),  // Contrainte d'unicité
-  password_hash: text("password_hash").notNull(),
-  image: text("image"),
-  preferredGenre: text('preferred_genre'),
-  aiAssistanceEnabled: boolean('ai_assistance_enabled').default(true),
-  created_at: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  onboarded: boolean('onboarded').default(false),
-  // Indique si l'utilisateur a complété l'onboarding
-  preferences: jsonb("preferences").default('{}'),  // Valeur par défaut JSON
-  updated_at: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 50 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+  onboarded: boolean("onboarded").default(false),
+  avatarUrl: text("avatar_url"), // Utilisation d'un nom de colonne plus clair
+  preferredGenre: jsonb("preferred_genre"),
+  aiAssistanceEnabled: boolean("ai_assistance_enabled").default(true), // Correction de "aI" en "ai"
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// Table books avec un ID auto-incrémenté
-export const books = pgTable('books', {
-  id: integer('id').primaryKey(),  // Auto-incrément pour les livres
-  userId: uuid('user_id').references(() => users.id),  // Référence à la table users
-  title: varchar('title', { length: 255 }).notNull(),
-  description: varchar('description', { length: 1000 }),
-  coverImageUrl: varchar('cover_image_url', { length: 500 }),
-  progress: integer('progress').default(0),  // Progression de l'écriture
-  content: text('content'),
-  isPublished: boolean('is_published').default(false),
-  created_at: timestamp('created_at').defaultNow(),  // Création
-  updated_at: timestamp('updated_at').defaultNow(),  // Mise à jour
+// Books table
+export const books = pgTable("books", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  genre: varchar("genre", { length: 100 }),
+  language: varchar("language", { length: 50 }),
+  description: text("description"),
+  coverImage: varchar("cover_image", { length: 255 }),
+  content: jsonb("content"), // Assure-toi que le type de contenu soit approprié
+  authorId: uuid("author_id")
+    .notNull()
+    .references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Table chapters avec un ID auto-incrémenté
-export const chapters = pgTable('chapters', {
-  id: integer('id').primaryKey(),  // Auto-incrément pour les chapitres
-  bookId: integer('book_id').references(() => books.id),  // Référence à la table books
-  title: varchar('title', { length: 255 }).notNull(),
-  content: text('content').notNull(),  // Contenu du chapitre
-  orderIndex: integer('order_index').notNull().default(0),  // Index d'ordre des chapitres
-  created_at: timestamp('created_at').defaultNow(),  // Création
-  updated_at: timestamp('updated_at').defaultNow(),  // Mise à jour
+export const chapters = pgTable("chapters", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }),
+  content: text("content").notNull(),
+  order: integer("order").default(0),
+  bookId: integer("book_id")
+    .notNull()
+    .references(() => books.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Relations (si tu veux les définir)
+// export const userRelations = relations(users, ({ many }) => ({
+//   books: many(books), // Un utilisateur peut avoir plusieurs livres
+// }));
+
+// export const bookRelations = relations(books, ({ one }) => ({
+//   author: one(users, { fields: [books.authorId], references: [users.id] }), // Un livre a un auteur
+// }));
+
+// export const chapterRelations = relations(chapters, ({ one }) => ({
+//   chapters: one(books, { fields: [chapters.bookId], references: [books.id] }),
+// }));
 
 
-// export const echapter = pgTable('chapters', {
-//   id: serial('id').primaryKey(),
-//   ebookId: serial('ebook_id').references(() => ebooks.id),
-//   title: varchar('title', { length: 255 }).notNull(),
-//   content: text('content'),
-//   orderIndex: serial('order_index').notNull(),
-//   createdAt: timestamp('created_at').defaultNow().notNull(),
-//   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-// })
+export const aiSuggestions = pgTable("ai_suggestions", {
+  id: serial("id").primaryKey(),
+  chapterId: serial("chapter_id").references(() => chaptersai.id),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+})
 
+export const booksai = pgTable("books", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  genre: varchar("genre", { length: 100 }),
+  language: varchar("language", { length: 50 }),
+  description: text("description"),
+  coverImage: varchar("cover_image", { length: 255 }),
+  userId: varchar("user_id", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+})
 
-
-
-
-// export const chats = pgTable("chats", {
-//   id: uuid("id").primaryKey().defaultRandom(),
-//   userId: uuid("user_id").references(()=> users.id),
-//   content: text("content").notNull(),
-//   sharePath: varchar("share_path", { length: 255 }),
-//   createdAt: timestamp("created_at").defaultNow(),
-// });
-
-
-
-
-// export const ebooks = pgTable('ebooks', {
-//   id: serial('id').primaryKey(),
-//   title: varchar('title', { length: 255 }).notNull(),
-//   createdAt: timestamp('created_at').defaultNow().notNull(),
-//   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-// })
+export const chaptersai = pgTable("chapters", {
+  id: serial("id").primaryKey(),
+  bookId: serial("book_id").references(() => books.id),
+  title: varchar("title", { length: 255 }).notNull(),
+  content: text("content"),
+  order: serial("order").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+})

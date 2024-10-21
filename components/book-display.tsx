@@ -30,9 +30,9 @@ export function BookDisplay({
       <ContextMenu>
         <ContextMenuTrigger>
           <div className="overflow-hidden rounded-md">
-            <Link href={`/book/${book.id}`} key={book.id}>
+            <Link href={`/book/create/${book.id}`} key={book.id}>
               <Image
-                src={book.coverImageUrl}
+                src={book.coverImage || ""}
                 alt={book.title}
                 width={width}
                 height={height}
@@ -55,16 +55,14 @@ export function BookDisplay({
       </ContextMenu>
       <div className="space-y-1 text-sm">
         <h3 className="font-medium leading-none">{book.title}</h3>
-        <p className="text-xs text-muted-foreground">{book.author}</p>
         <p className="text-xs text-muted-foreground">{book.description}</p>
-        <p className="text-xs text-muted-foreground">{book.progress}% complete</p>
 
-        <div className="h-2 bg-secondary rounded">
+        {/* <div className="h-2 bg-secondary rounded">
           <div
             className="h-full bg-primary rounded"
             style={{ width: `${book.progress}%` }}
           ></div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

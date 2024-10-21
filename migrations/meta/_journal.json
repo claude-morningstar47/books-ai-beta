@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1729240831533,
-      "tag": "0000_bent_scalphunter",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1729252758742,
-      "tag": "0001_far_whirlwind",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1729253598971,
-      "tag": "0002_concerned_phantom_reporter",
+      "when": 1729494834744,
+      "tag": "0000_early_excalibur",
       "breakpoints": true
     }
   ]

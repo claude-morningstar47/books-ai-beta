@@ -1,20 +1,39 @@
 'use client'
 
-import { useState } from 'react'
 
+import { getBookById, getChapter } from '@/app/actions/actions'
 // import dynamic from 'next/dynamic'
 // const Editor = dynamic(() => import('@tinymce/tinymce-react').then((mod) => mod.Editor), { ssr: false })
 
 // import { Editor } from '@tinymce/tinymce-react'
 import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { AIAssistant } from '@/components/ai-assistanti'
+// import { AIAssistant } from '@/components/ai-assistanti'
 import { useToast } from '@/hooks/use-toast'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-export function BookEditor({ bookId }: { bookId: string }) {
+export default function BookEditor() {
+const params = useParams()
+
   const [content, setContent] = useState('')
   const [progress, setProgress] = useState(0)
   const { toast } = useToast()
+
+  console.log('ID du livre:', params.id)
+
+  useEffect(()=>{
+    const loadEbookData = async ()=>{
+      const bookId = parseInt(params.id as string)
+      const dataBook = await getBookById(bookId)
+      const dataChapters = await getChapter(bookId)
+
+      console.log("databook", dataBook);
+      console.log("datachapter", dataChapters);
+      
+    }
+    loadEbookData()
+  }, [params.id])
+  
 
   const handleEditorChange = (content: string) => {
     setContent(content)
@@ -37,7 +56,7 @@ export function BookEditor({ bookId }: { bookId: string }) {
         <h2 className="text-2xl font-bold">Book Title</h2>
         <Button onClick={handleSave}>Save</Button>
       </div>
-      <Progress value={progress} className="mb-4" />
+      {/* <Progress value={progress} className="mb-4" /> */}
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           {/* <Editor
@@ -59,7 +78,7 @@ export function BookEditor({ bookId }: { bookId: string }) {
           /> */}
         </div>
         <div>
-          <AIAssistant content={content} />
+          {/* <AIAssistant content={content} /> */}
         </div>
       </div>
     </div>

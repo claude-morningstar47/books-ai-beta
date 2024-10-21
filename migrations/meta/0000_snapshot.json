@@ -1,5 +1,5 @@
 {
-  "id": "089726f5-8fb8-4b24-ab54-79382cfa7bdd",
+  "id": "e4e56922-edb9-4f1a-a315-036856dbd623",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,15 +10,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
         },
         "title": {
           "name": "title",
@@ -26,37 +20,41 @@
           "primaryKey": false,
           "notNull": true
         },
+        "genre": {
+          "name": "genre",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "language": {
+          "name": "language",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "description": {
           "name": "description",
-          "type": "varchar(1000)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cover_image_url": {
-          "name": "cover_image_url",
-          "type": "varchar(500)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "progress": {
-          "name": "progress",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "default": 0
-        },
-        "content": {
-          "name": "content",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "is_published": {
-          "name": "is_published",
-          "type": "boolean",
+        "cover_image": {
+          "name": "cover_image",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "default": false
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -75,12 +73,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "books_user_id_users_id_fk": {
-          "name": "books_user_id_users_id_fk",
+        "books_author_id_users_id_fk": {
+          "name": "books_author_id_users_id_fk",
           "tableFrom": "books",
           "tableTo": "users",
           "columnsFrom": [
-            "user_id"
+            "author_id"
           ],
           "columnsTo": [
             "id"
@@ -98,21 +96,15 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
-        },
-        "book_id": {
-          "name": "book_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
         },
         "title": {
           "name": "title",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "content": {
           "name": "content",
@@ -120,12 +112,18 @@
           "primaryKey": false,
           "notNull": true
         },
-        "order_index": {
-          "name": "order_index",
+        "order": {
+          "name": "order",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": 0
+        },
+        "book_id": {
+          "name": "book_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -169,26 +167,32 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
-        "username": {
-          "name": "username",
-          "type": "text",
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
         },
         "email": {
           "name": "email",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },
         "password_hash": {
           "name": "password_hash",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
+        },
+        "onboarded": {
+          "name": "onboarded",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "avatar_url": {
           "name": "avatar_url",
@@ -216,13 +220,6 @@
           "notNull": true,
           "default": "now()"
         },
-        "preferences": {
-          "name": "preferences",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'{}'"
-        },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
@@ -235,11 +232,11 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_username_unique": {
-          "name": "users_username_unique",
+        "users_name_unique": {
+          "name": "users_name_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "username"
+            "name"
           ]
         },
         "users_email_unique": {

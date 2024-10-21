@@ -24,7 +24,7 @@ export function NavUser({
   user: {
     name: string;
     email: string;
-    image: string;
+    image?: string;
   };
 }) {
   return (

@@ -23,6 +23,7 @@ import { patchUser } from "@/app/actions/user-actions";
 
 export default function Onboarding({ session }: { session: Session }) {
   const [step, setStep] = useState(0);
+  const [isAiAssistance, setIsAiAssistance] = useState(false);
   const [userData, setUserData] = useState({
     follow: [] as string[],
     genre: [] as string[],
@@ -33,11 +34,17 @@ export default function Onboarding({ session }: { session: Session }) {
   const handleNext = () => setStep((prevStep) => prevStep + 1);
 
   const handleFinish = async () => {
+    setIsAiAssistance(true);
     await patchUser(session.user.id, {
       onboarded: true,
-      preferences: userData,
+      aiAssistanceEnabled: isAiAssistance,
+      preferredGenre: {
+        expertise: userData.expertise as string[],
+        follow: userData.follow as string[],
+        genre: userData.genre as string[],
+      },
     });
-    router.push("/");
+    router.push("/book");
   };
 
   const updateCheckedItems = (

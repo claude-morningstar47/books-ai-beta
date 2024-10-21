@@ -22,7 +22,7 @@ import {
   SidebarLabel,
 } from "@/components/ui/sidebar";
 import { appConfig } from "@/config/app-config";
-import { Button } from "./ui/button";
+// import { Button } from "./ui/button";
 import Link from "next/link";
 import { Session } from "@/lib/types";
 
@@ -101,19 +101,14 @@ const data = {
   ],
 };
 
-export async function AppSidebar({ userData }: { userData: Session }) {
-  const user = userData;
-  console.log('user session',user);
-
+export function AppSidebar({ session }: { session: Session }) {
   return (
     <Sidebar>
       <SidebarHeader>
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/book" className="flex items-center gap-2">
-            <PanelsTopLeft className="w-6 h-6 mr-1" />
-            <h1>{appConfig.name}</h1>
-          </Link>
-        </Button>
+        <Link href="/book" className="flex items-center gap-2">
+          <PanelsTopLeft className="w-6 h-6 mr-1" />
+          <h1>{appConfig.name}</h1>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
@@ -121,6 +116,7 @@ export async function AppSidebar({ userData }: { userData: Session }) {
           <SidebarLabel>Platform</SidebarLabel>
           <NavMain items={data.navMain} searchResults={data.searchResults} />
         </SidebarItem>
+
         <SidebarItem>
           <SidebarLabel>Projects</SidebarLabel>
           <NavProjects projects={data.projects} />
@@ -132,13 +128,7 @@ export async function AppSidebar({ userData }: { userData: Session }) {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser
-          user={{
-            name: user?.user?.name,
-            email: user?.user?.email,
-            image: user?.user?.image,
-          }}
-        />
+        <NavUser user={session?.user} />
       </SidebarFooter>
     </Sidebar>
   );

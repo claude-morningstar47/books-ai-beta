@@ -32,7 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const hashedPassword = await bcrypt.compare(
             password,
-            user.password_hash
+            user.passwordHash
           );
           if (hashedPassword) {
             return user;

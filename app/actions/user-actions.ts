@@ -43,7 +43,7 @@ export async function createUser(
       id: crypto.randomUUID(),
       name,
       email,
-      password_hash: hashedPassword,
+      passwordHash: hashedPassword,
     };
 
     await db.insert(users).values(user);

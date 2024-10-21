@@ -37,6 +37,15 @@ export default function TextEditor({ content, onChange }: TextEditorProps) {
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML())
     },
+    editable: typeof window !== 'undefined',
+    // Désactiver le rendu immédiat côté serveur
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm max-w-none'
+      },
+      // immediatelyRender: false, // Ajout de cette ligne pour éviter l'erreur SSR
+    },
+    
   })
 
   useEffect(() => {

@@ -1,39 +1,43 @@
-/* These TypeScript interfaces are defining the structure of various data types used in a hypothetical
-application. Here's a breakdown of each interface: */
+// User interface
 export interface User {
   id: string;
   name: string;
   email: string;
-  image: string ;
-  onboarded: boolean
-  password_hash: string;
-  preferredGenre: string | null;
-  aiAssistanceEnabled: boolean;
-  created_at: string;
-  preferences: Record<string, unknown>;
-  updated_at: string;
+  passwordHash: string;
+  onboarded?: boolean;
+  avatarUrl?: string;
+  preferredGenre?: Preference;
+  aiAssistanceEnabled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
+export interface Preference {
+  follow: string[]
+  genre: string[]
+  expertise: string[]
+}
+
+// Book interface
 export interface Book {
   id: number;
-  userId: string;
   title: string;
-  description: string | null;
-  coverImageUrl: string | null;
-  progress: string;
-  content: string | null;
-  isPublished: boolean;
+  genre?: string;
+  language?: string;
+  description?: string;
+  entrepreneurialInsights:string
+  coverImage?: string;
+  content: Chapter[]; // Liste de chapitres
+  authorId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
+// Chapter interface
 export interface Chapter {
   id: number;
-  bookId?: number;
   title: string;
   content: string;
-  orderIndex?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  order: number;
 }
 
 export interface Chat {
@@ -48,8 +52,6 @@ export interface Session {
     id: string;
     email: string;
     name: string;
-    image: string
-    onboarded: boolean
   };
 }
 
